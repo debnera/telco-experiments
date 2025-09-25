@@ -27,7 +27,7 @@ helm install oai-nr-ue .
 
 # Test UE connectivity
 kubectl get pods  # Check pod name
-kubectl exec -it oai-nr-ue-7db7ccddcb-g88tv -- bash
+kubectl exec -it oai-nr-ue-7db7ccddcb-g88tv -- bash  # Replace pod name with actual name
 ping -I oaitun_ue1 12.1.1.1 # Ping UPF
 ping -I oaitun_ue1 8.8.8.8  # Ping outside internet
  
@@ -39,3 +39,23 @@ helm install kepler \
   --create-namespace
 # launch prometheus
 # run iperf or whatever experiments
+
+helm install kepler \
+  https://github.com/sustainable-computing-io/kepler/releases/download/v0.11.2/kepler-helm-0.11.2.tgz \
+  --namespace kepler \
+  --create-namespace  --set image.repository='busybox'  --set image.tag='stable'  --set image.command='["/bin/sh","-c","while true; do sleep 30; done"]'
+  
+  
+helm install kepler \
+https://github.com/sustainable-computing-io/kepler/releases/download/v0.11.2/kepler-helm-0.11.2.tgz \
+--namespace kepler \
+--create-namespace \
+--set command='["bash"]' \
+--set args='["-lc","sleep infinity"]'
+  
+
+
+--set "prometheus-node-exporter.hostRootFsMount.enabled=false" \
+  
+  
+  
